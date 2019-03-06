@@ -1,36 +1,49 @@
 import React, { Component } from 'react';
-import {Text, StyleSheet } from 'react-native';
+import { FlatList, TouchableOpacity, Text, TextInput, View,StyleSheet } from 'react-native';
 
 export default class Gists extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      titleText: "Gists",
-      bodyText: 'g'
-    };
+    this.state = {text: ''};
+    this.state ={ isLoading: true};
+  }
+
+  componentDidMount (){
+    return fetch('https://api.github.com/users/ashutoshkumarsingh/events')
+    .then((response) => response.json())
+    .then((responseJson) => {
+
+      this.setState({
+        isLoading: false,
+        dataSource: responseJson,
+      }, function(){
+      });
+    })
+    .catch((error) =>{
+      console.error(error);
+    });
   }
 
   render() {
     return (
-      <Text style={styles.baseText}>
-        <Text style={styles.titleText} onPress={this.onPressTitle}>
-          {this.state.titleText}{'\n'}{'\n'}
-        </Text>
-        <Text numberOfLines={5}>
-          {this.state.bodyText}
-        </Text>
-      </Text>
+      <View style={styles.container}>
+        
+       <FlatList
+          data={this.state.dataSource}
+          renderItem={({item}) => <Text>{item.id}, {item.type}</Text>}
+          keyExtractor={({id}, index) => id}
+        />
+       
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  baseText: {
-    fontFamily: 'Cochin',
+container: {
+    margin: 50,
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 10
   },
-  titleText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});
-
+})

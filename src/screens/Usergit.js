@@ -6,8 +6,8 @@ import {
   SceneMap,
   type NavigationState,
 } from 'react-native-tab-view';
-import Repos from './Shared/Repos';
-import Gists from './Shared/Gists';
+import Repos from '../Shared/Repos';
+import Gists from '../Shared/Gists';
 
 type State = NavigationState<{
   key: string,
