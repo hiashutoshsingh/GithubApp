@@ -1,27 +1,39 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { TouchableOpacity, Text, TextInput, View,StyleSheet } from 'react-native';
 
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>hi</Text>
+        <TextInput
+          placeholder="Type the Github Username"
+          onChangeText={(text) => this.setState({text})}
+        />
+        <TouchableOpacity
+         style={styles.button}
+       >
+         <Text>Search</Text>
+       </TouchableOpacity>
+       
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10
+  },container: {
+    margin: 50,
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    paddingHorizontal: 10
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  }
-});
+})
