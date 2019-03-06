@@ -5,26 +5,14 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {text: ''};
-    this.state ={ isLoading: true};
   }
+  static navigationOptions = {
+    title: 'App',
+  };
 
-  onPress = () => {
-    fetch('https://api.github.com/users/ashutoshkumarsingh/repos')
-    .then((response) => response.json())
-    .then((responseJson) => {
-
-      this.setState({
-        isLoading: false,
-        dataSource: responseJson,
-      }, function(){
-      });
-    })
-    .catch((error) =>{
-      console.error(error);
-    });
-  }
 
   render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
         <TextInput
@@ -33,17 +21,11 @@ export default class App extends Component {
         />
         <TouchableOpacity
          style={styles.button}
-         onPress={this.onPress}
+         onPress={() => navigate('Usergit')}
         >
          <Text>Search</Text>
        </TouchableOpacity>
 
-       <FlatList
-          data={this.state.dataSource}
-          renderItem={({item}) => <Text>{item.name}, {item.id}</Text>}
-          keyExtractor={({id}, index) => id}
-        />
-       
       </View>
     );
   }
